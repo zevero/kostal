@@ -1,18 +1,21 @@
-var options = {
+var options = {}, options_default = {
   url: "",
   interval: 60,
   sep: ';',
+  dir: 'logs/', //use with trailing /
   filename: (function (pre) {
   	 var d = new Date();
   	 var date = d.getFullYear()*10000 + (d.getMonth()+1) * 100 + d.getDate();
   	 var time = d.getHours()*100+d.getMinutes();
   	 return pre + "_" + date + "_" + ((time<1000)?"0":"") + time + ".dat";
-  	 }('kostal'))
+  	 }('kostal')),
+  onData: function(line){/*doSomething*/}
 };
 
 var request = require('request');
 var jsdom = require('jsdom');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 var extend = require('extend');
 
 var excel = {
@@ -54,7 +57,8 @@ var excel = {
     var line = line || this.header;
     this.write_nr =+1;
     console.log(this.write_nr + ': ' +line);
-    fs.appendFile(options.filename, line, function (err) {
+    options.onData(line);
+    fs.appendFile(options.dir + options.filename, line, function (err) {
       if (err) throw err;
     });
   }
@@ -89,18 +93,26 @@ function poll(){
 
 module.exports={
   start: function (opts) {
-    extend(options, opts);
-  	 if (!options.url) {throw new Error("Hey! Provide me with an url!");}
+    extend(options, options_default, opts);
+    if (!options.url) {throw new Error("Hey! Provide me with an url!");}
   	
-  	 console.log('Starting to poll from \033[36m' + options.url +
-  	             '\033[39m every \033[36m' + options.interval + 's ' +
-  	             '\033[39m and writing to \033[36m' + options.filename +
-  	             '\033[39m!');
-  	 
-    excel.write(); // w/o argruments prints header
-    poll();
-    setInterval(poll, options.interval * 1000);
+    console.log('STARTING to poll from \033[36m' + options.url +
+                '\033[39m every \033[36m' + options.interval + 's ' +
+                '\033[39m and writing to \033[36m' + options.dir + options.filename +
+                '\033[39m!');
+    mkdirp(options.dir, function(err) { //make sure the logging dir exists
+      excel.write(); // w/o argruments prints header
+      poll();
+      options.interval_handler = setInterval(poll, options.interval * 1000);
+    });
   
+  },
+  stop: function(){
+    clearInterval(options.interval_handler);
+    console.log('STOPPING on  \033[36m' + options.filename +
+  	         '\033[39m!');
+
+    options = {};
   }
 };
 

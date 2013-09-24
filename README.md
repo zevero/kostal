@@ -22,5 +22,5 @@ Just install with 'npm install kostal' or include it in your package.json file a
 
 Off you go! Stop it with Ctrl-C :)
 
-The csv-file waits to be imported in your root directory.
+The csv-file waits to be imported in your 'logs' directory.
 Be sure to format the TimeExcel colum to "date with time" and use "Insert Diagramm" to view your data.
