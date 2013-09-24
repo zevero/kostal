@@ -1,0 +1,21 @@
+{
+  "name": "kostal",
+  "version": "1.1.5",
+  "main": "./poll.js",
+  "dependencies": {
+    "request": "latest",
+    "jsdom": "latest",
+    "extend": "latest"
+  },
+  "homepage": "https://github.com/zevero/kostal.git",
+  "keywords": [
+    "kostal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zevero/kostal.git"
+  },
+  "readme": "This script extracts data from your Kostal Piko every n seconds and collects it in a csv-file, which is importable to excel or libreoffice.\n\n## Where ist tested?\n\nI own a Kostal Piko 5.5\n\n## Why a script, when there are so many loggers out there already?\n\nNormal data-loggers only provide data every 5 or 15 minutes without voltage information.\nSince I experience power-drops, when only one solar module is partly shaded I needed more detailed information.\n\n## Usage\n\nJust install with 'npm install kostal' or include it in your package.json file and start it:\n\n    kostal = require('kostal');\n\n    kostal.start({\n\t   url: 'http://pvserver:password@192.168.2.5',\n\t   interval: 2\n    });\n\nOff you go! Stop it with Ctrl-C :)\n\nThe csv-file waits to be imported in your root directory.\nBe sure to format the TimeExcel colum to \"date with time\" and use \"Insert Diagramm\" to view your data.\n",
+  "readmeFilename": "README.md",
+  "description": "This script extracts data from your Kostal Piko every n seconds and collects it in a csv-file, which is importable to excel or libreoffice."
+}
