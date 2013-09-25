@@ -9,7 +9,7 @@ var options = {}, options_default = {
   	 var time = d.getHours()*100+d.getMinutes();
   	 return pre + "_" + date + "_" + ((time<1000)?"0":"") + time + ".dat";
   	 }('kostal')),
-  onData: function(line){/*doSomething*/}
+  onData: function(live){/*doSomething*/}
 };
 
 var request = require('request');
@@ -57,7 +57,7 @@ var excel = {
     var line = line || this.header;
     this.write_nr =+1;
     console.log(this.write_nr + ': ' +line);
-    options.onData(line);
+    options.onData({filename: options.filename, line: line});
     fs.appendFile(options.dir + options.filename, line, function (err) {
       if (err) throw err;
     });
@@ -113,7 +113,8 @@ module.exports={
   	         '\033[39m!');
 
     options = {};
-  }
+  },
+  filename: function(){return options.filename;}
 };
 
 

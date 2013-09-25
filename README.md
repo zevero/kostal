@@ -24,3 +24,7 @@ Off you go! Stop it with Ctrl-C :)
 
 The csv-file waits to be imported in your 'logs' directory.
 Be sure to format the TimeExcel colum to "date with time" and use "Insert Diagramm" to view your data.
+
+## KOSTAL-UI
+
+Tired of converting your Data to Libreoffice? Try the full fledged dynamic web-server [Kostal-UI](www.github.com/zevero/kostal-ui)
