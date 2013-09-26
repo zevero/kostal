@@ -57,7 +57,7 @@ var excel = {
     var line = line || this.header;
     this.write_nr =+1;
     console.log(this.write_nr + ': ' +line);
-    options.onData({filename: options.filename, line: line});
+    if (line !== this.header) options.onData({filename: options.filename, line: line});
     fs.appendFile(options.dir + options.filename, line, function (err) {
       if (err) throw err;
     });
