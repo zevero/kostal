@@ -2,13 +2,7 @@ var options = {}, options_default = {
   url: "",
   interval: 60,
   sep: ';',
-  dir: 'logs/', //use with trailing /
-  filename: (function (pre) {
-  	 var d = new Date();
-  	 var date = d.getFullYear()*10000 + (d.getMonth()+1) * 100 + d.getDate();
-  	 var time = d.getHours()*100+d.getMinutes();
-  	 return pre + "_" + date + "_" + ((time<1000)?"0":"") + time + ".dat";
-  	 }('kostal')),
+  dir:  'logs/', //use with trailing /
   onData: function(live){/*doSomething*/}
 };
 
@@ -60,6 +54,7 @@ var excel = {
   write: function excel_write(line){
     var line = line || this.header;
     this.write_nr =+1;
+    console.log(options.dir + options.filename);
     console.log(this.write_nr + ': ' +line);
     if (line !== this.header) options.onData({filename: options.filename, line: line});
     fs.appendFile(options.dir + options.filename, line, function (err) {
@@ -83,10 +78,8 @@ function poll(){
 	        $('td[bgcolor=#FFFFFF]').each(function(key, val) {
 	        	var val = parseFloat($(val).text().trim()),
 	        	    key = excel.map[key];
-	        	//console.log(key, val);
 	        	if (key) data[key] = val?val:'';
 	        });
-	        //console.log(data);
 	        excel.line(data);
 	        window.close();
 	      }
@@ -95,10 +88,20 @@ function poll(){
 	});
 };
 
+function getFileName(pre){
+  pre = pre || 'kostal';
+  var d = new Date();
+  var date = d.getFullYear()*10000 + (d.getMonth()+1) * 100 + d.getDate();
+  var time = d.getHours()*100+d.getMinutes();
+  return pre + "_" + date + "_" + ((time<1000)?"0":"") + time + ".dat";
+}
+
+
 module.exports={
   start: function (opts) {
     extend(options, options_default, opts);
     if (!options.url) {throw new Error("Hey! Provide me with an url!");}
+    options.filename = getFileName();
   	
     console.log('STARTING to poll from \033[36m' + options.url +
                 '\033[39m every \033[36m' + options.interval + 's ' +
