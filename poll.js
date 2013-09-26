@@ -46,6 +46,10 @@ var excel = {
 	     data.A2 + sep +
 	     data.U3 + sep +
 	     data.A3 + '\n';
+    if (!data.P) {
+      module.exports.stop(); //no data, so we will stop everything
+      return;
+    }
     this.write(line.replace(/\./g,',')); 
   },
   time: function excel_time(t){
@@ -108,8 +112,8 @@ module.exports={
   
   },
   stop: function(){
-    clearInterval(options.interval_handler);
-    console.log('STOPPING on  \033[36m' + options.filename +
+    if (options.interval_handler) clearInterval(options.interval_handler);
+    if (options.filename) console.log('STOPPING on  \033[36m' + options.filename +
   	         '\033[39m!');
 
     options = {};
