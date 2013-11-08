@@ -27,4 +27,4 @@ Be sure to format the TimeExcel colum to "date with time" and use "Insert Diagra
 
 ## KOSTAL-UI
 
-Tired of converting your Data to Libreoffice? Try the full fledged dynamic web-server [Kostal-UI](www.github.com/zevero/kostal-ui)
+Tired of converting your Data to Libreoffice? Try the full fledged dynamic web-server [Kostal-UI](http://www.github.com/zevero/kostal-ui)
